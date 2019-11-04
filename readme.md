@@ -71,7 +71,7 @@ cd /app
 ### containerの作成
 Dockerfile読んでビルド  
 ```
-cat Dockerfile
+cat Dockerfile	# さり気なくディレクトリ移動をしっかり行ったかの保険をかけれる男。マジでイケメン
 
 dokcer build -t uwsgi_flask .
 ```
@@ -90,6 +90,9 @@ flaskのログも確認する
 ```
 docker logs <containerID>
 ```
+
+適当にcontainerを落とすのを忘れずに。  
+
 ### uwsgiを用いて起動する
 
 docker runするときにコマンドを何も指定しなければDockerfileの`CMD`が実行される。
@@ -112,8 +115,8 @@ nginxの設定ファイルを書いていく。
     include /etc/nginx/conf.d/*.conf;
 ```
 
-conf.d/の.confを全部インクルードする設定があると思う。  
-なので普通はこれを使ってconf.dの中にユーザー設定を記述していく。  
+conf.d/の.confを全部インクルードする設定がデフォで書いてある。  
+これを使ってconf.dの中にユーザー設定を記述していく。  
 
 `/etc/nginx/conf.d/default.conf`
 ```
@@ -134,7 +137,11 @@ server {
 }
 ```
 
-unixドメインソケットなのでunixをつけるのだ。unixドメインソケットとかそのあたりはググるのだ。
+unixドメインソケットなのでunix:/をつけるのだ。unixドメインソケットとかそのあたりはググるのだ。  
+nginxつまりポイントとしてsocketファイルの権限とか、怪しいのだ  
+error.logが何処に吐くかは/etc/nginx/nginx.confに書いてあるはずなので確認して、  
+即ったらerror.logをきっちり確認するのだ。適当にググる前にエラーログを読めバカタレが。  
+
 
 ```
 # nginx test
